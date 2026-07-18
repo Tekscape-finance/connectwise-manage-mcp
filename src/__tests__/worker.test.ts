@@ -106,9 +106,19 @@ describe("Cloudflare Worker entrypoint", () => {
       result?: { tools?: { name: string }[] };
     };
     const names = (body.result?.tools ?? []).map((t) => t.name);
-    expect(names).toContain("cw_search_tickets");
-    expect(names).toContain("cw_get_ticket");
-    expect(names.length).toBeGreaterThan(10);
+    expect(names).toHaveLength(59);
+    expect(names).toEqual(expect.arrayContaining([
+      "cw_search_tickets",
+      "cw_get_ticket",
+      "cw_search_purchase_orders",
+      "cw_get_purchase_order",
+      "cw_get_purchase_order_items",
+      "cw_search_procurement_products",
+      "cw_get_procurement_product",
+      "cw_search_orders",
+      "cw_get_order",
+      "cw_get_order_products",
+    ]));
   });
 
   it("returns a graceful error for a credential-requiring tool when unconfigured", async () => {
